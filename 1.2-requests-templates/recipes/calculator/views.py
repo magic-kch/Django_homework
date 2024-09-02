@@ -28,3 +28,20 @@ DATA = {
 #     'ингредиент2': количество2,
 #   }
 # }
+
+
+def recipe_view(request, recipe):
+    person = int(request.GET.get('servings', 1))
+    context = calc_person(recipe, person)
+    return render(request, 'calculator/index.html', context)
+
+
+def calc_person(recept: str, person: int):
+    new_data = {}
+    if recept in DATA.keys():
+        for k, v in DATA[recept].items():
+            if new_data.get('recipe'):
+                new_data['recipe'].update({k: f"{v * person:.1f}"})
+            else:
+                new_data['recipe'] = {k: f"{v * person:.1f}"}
+    return new_data
