@@ -18,15 +18,18 @@
     </div>
 
     <div class="content">
+      <div class="row">
       {% for phone in phones %}
-        <div class="phone">
-          <a href="{% url 'phone' phone.slug %}">
-            <h3>{{ phone.name }}</h3>
-          </a>
-          <div class="price">Стоимость: {{ phone.price }} ₽</div>
-          <img height="400" src="{{ phone.image }}" alt="{{ phone.name }}"/>
+        <div class="col-md-4">
+           <div class="phone">
+              <a href="{% url 'phone' phone.slug %}">
+                <h3>{{ phone.name }}</h3>
+              </a>
+              <div class="price">Стоимость: {{ phone.price }} ₽</div>
+              <img height="400" src="{{ phone.image }}" alt="{{ phone.name }}"/>
+          </div>
         </div>
       {% endfor %}
-    </div>
+
   </div>
 {% endblock %}
