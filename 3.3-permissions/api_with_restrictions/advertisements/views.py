@@ -15,16 +15,12 @@ class AdvertisementViewSet(ModelViewSet):
     serializer_class = AdvertisementSerializer
     filter_backends = [DjangoFilterBackend]
     filterset_class = AdvertisementFilter
-    permission_classes = [IsAuthenticated, IsOwnerOrReadOnly, IsAdmin]
-
-    def perform_create(self, serializer):
-        adv_count = Advertisement.objects.filter(creator=self.request.user).count()
-        if adv_count >= 10:
-            raise ValueError("Достигнут лимит объявлений")
-        serializer.save(creator=self.request.user)
+    permission_classes = [IsAuthenticated, IsOwnerOrReadOnly]
 
     def get_permissions(self):
         """Получение прав для действий."""
         if self.action in ["create", "update", "partial_update"]:
             return [IsAuthenticated()]
+        if self.action in ["retrieve", "destroy"]:
+            return [IsOwnerOrReadOnly()] and [IsAdmin()]
         return []

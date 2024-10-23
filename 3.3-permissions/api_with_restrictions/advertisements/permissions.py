@@ -8,7 +8,7 @@ class IsOwnerOrReadOnly(BasePermission):
             return True
 
         # Разрешить изменение и удаление только создателю объекта
-        return obj.owner == request.user
+        return obj.creator == request.user
 
 
 class IsAdmin(BasePermission):
